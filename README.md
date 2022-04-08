@@ -1,5 +1,4 @@
 # hello-k8s
-
 k8s demo
 
 # 开发环境搭建
@@ -33,7 +32,7 @@ k8s demo
     sudo docker login --username=beecluster registry.cn-hangzhou.aliyuncs.com
   ```
 
-### k8s
+### k8s集群初始化
 * 安装kubeadm kubelet kubectl
   ```bash
   sudo apt-get update
@@ -88,7 +87,7 @@ k8s demo
       timeoutForControlPlane: 4m0s
     apiVersion: kubeadm.k8s.io/v1beta3
     certificatesDir: /etc/kubernetes/pki
-    clusterName: kubernetes
+    clusterName: kubernetes # 可改成你喜欢的名字
     controllerManager: {}
     dns: {}
     etcd:
@@ -146,8 +145,15 @@ k8s demo
   ## build
   * docker build -t hello-k8s .
 
-## k8s
+## k8s部署
+  ```bash
+  # 虚拟机挂在共享盘
+  multipass set local.privileged-mounts=true
+  multipass mount D:/share/ k8s-master:/home/ubuntu/share
 
+  
+
+  ```
 * [minikube](https://minikube.sigs.k8s.io/docs/start/)
 * `kubectl apply -f mongo-config.yaml`
 * `kubectl apply -f mongo-secret.yaml`
@@ -164,22 +170,25 @@ k8s demo
 * kubectl logs webapp-deployment-56dbf5d695-7lzml -f
 
 # multipass 使用方式
+  ```bash
+  multipass launch docker --name foo
 
-* multipass launch docker --name foo
-* multipass networks
-* multipass launch -n foo --network WSL
-* multipass exec foo -- lsb_release -- -a
-* multipass list
-* multipass stop foo bar
-* multipass start foo
-* multipass delete bar
-* multipass purge
-* multipass find
-* multipass shell foo
-* multipass exec foo sudo apt update
-* multipass exec primary lsb_release -- -a
-* multipass transfer xxx.txt foo:/home/ubuntu/xxx.txt
-* multipass set local.privileged-mounts=on
-* multipass mount D:\github\hello-k8s master:/home/ubuntu/hello-k8s/
-* multipass launch minikube -n master -d 10G -m 8G -c 4 --cloud-init cloud-config.yaml
-* sudo hostnamectl set-hostname master-node
+  multipass networks
+  multipass launch -n foo --network WSL
+  multipass list
+  multipass stop foo bar
+  multipass start foo
+  multipass delete bar
+  multipass purge
+  multipass find
+  multipass shell foo
+  multipass exec foo sudo apt update
+  multipass exec primary lsb_release -- -a
+  multipass transfer xxx.txt foo:/home/ubuntu/xxx.txt
+  multipass set local.privileged-mounts=on
+  multipass mount D:\github\hello-k8s master:/home/ubuntu/hello-k8s/
+  multipass launch minikube -n master -d 10G -m 8G -c 4 --cloud-init cloud-config.yaml
+  sudo hostnamectl set-hostname master-node
+  ```
+
+  multipass mount D:\share k8s-master:/home/ubuntu/share/
